@@ -8,6 +8,7 @@ void hwInit()
 	bspInit();
 	usbInit();
 	uartInit();
+	cliInit();
 	gpioInit();
 	i2cInit();
 

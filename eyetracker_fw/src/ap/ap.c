@@ -5,7 +5,7 @@
 void apInit()
 {
 
-
+	cliOpen(_DEF_UART2, 38400);
 }
 
 
@@ -13,7 +13,6 @@ void apMain()
 {
 	while(1)
 	{
-		gpioPinToggle(_DEF_GPIO1);
-		delay(1000);
+		cliMain();
 	}
 }
