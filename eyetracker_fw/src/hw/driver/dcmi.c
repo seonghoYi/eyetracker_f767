@@ -1,12 +1,12 @@
 #include "dcmi.h"
 
-
 #ifdef _USE_HW_DCMI
 
 
 
 DCMI_HandleTypeDef hdcmi;
 DMA_HandleTypeDef hdma_dcmi;
+
 
 
 bool dcmiInit(void)
@@ -40,12 +40,24 @@ bool dcmiInit(void)
 	return ret;
 }
 
-
-bool dcmiStart(uint32_t p_data, uint32_t length)
+bool dcmiContinuousStart(uint32_t *p_data, uint32_t length)
 {
 	bool ret = true;
 
-	if (HAL_DCMI_Start_DMA(&hdcmi, DCMI_MODE_CONTINUOUS, p_data, length) != HAL_OK)
+	if (HAL_DCMI_Start_DMA(&hdcmi, DCMI_MODE_CONTINUOUS, (uint32_t)p_data, length) != HAL_OK)
+	{
+		ret = false;
+	}
+
+	return ret;
+}
+
+
+bool dcmiSnapshotStart(uint32_t *p_data, uint32_t length)
+{
+	bool ret = true;
+
+	if (HAL_DCMI_Start_DMA(&hdcmi, DCMI_MODE_SNAPSHOT, (uint32_t)p_data, length) != HAL_OK)
 	{
 		ret = false;
 	}
@@ -88,9 +100,6 @@ bool dcmiResume(void)
 
 	return ret;
 }
-
-
-
 
 
 void HAL_DCMI_MspInit(DCMI_HandleTypeDef* dcmiHandle)
@@ -177,6 +186,9 @@ void HAL_DCMI_MspInit(DCMI_HandleTypeDef* dcmiHandle)
 
     __HAL_LINKDMA(dcmiHandle,DMA_Handle,hdma_dcmi);
 
+    /* DCMI interrupt Init */
+    HAL_NVIC_SetPriority(DCMI_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DCMI_IRQn);
   /* USER CODE BEGIN DCMI_MspInit 1 */
 
   /* USER CODE END DCMI_MspInit 1 */
@@ -219,6 +231,9 @@ void HAL_DCMI_MspDeInit(DCMI_HandleTypeDef* dcmiHandle)
 
     /* DCMI DMA DeInit */
     HAL_DMA_DeInit(dcmiHandle->DMA_Handle);
+
+    /* DCMI interrupt Deinit */
+    HAL_NVIC_DisableIRQ(DCMI_IRQn);
   /* USER CODE BEGIN DCMI_MspDeInit 1 */
 
   /* USER CODE END DCMI_MspDeInit 1 */

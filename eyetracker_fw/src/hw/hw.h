@@ -10,7 +10,7 @@
 #include "i2c.h"
 #include "lcd.h"
 
-#include "dcmi.h"
+#include "cam.h"
 
 
 void hwInit();

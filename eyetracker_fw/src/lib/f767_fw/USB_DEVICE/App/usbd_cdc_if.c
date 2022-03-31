@@ -119,12 +119,12 @@ uint8_t USBD_CDC_SOF(struct _USBD_HandleTypeDef *pdev)
   {
     uint32_t buf_len;
 
-    // ?àò?ã† Î≤ÑÌçº?óê?Ñú ÎπÑÏñ¥?ûà?äî ?ç∞?ù¥?Ñ∞ ?ñë
+    // ?ÔøΩÔøΩ?ÔøΩÔøΩ Î≤ÑÌçº?ÔøΩÔøΩ?ÔøΩÔøΩ ÎπÑÏñ¥?ÔøΩÔøΩ?ÔøΩÔøΩ ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ ?ÔøΩÔøΩ
     buf_len = (rx_len - cdcAvailable()) - 1;
 
     if (buf_len >= USB_FS_MAX_PACKET_SIZE)
     {
-      // ?ã§?ùå ?ç∞?ù¥?Ñ∞?èÑ Î≥¥ÎÇ¥Ï§?.
+      // ?ÔøΩÔøΩ?ÔøΩÔøΩ ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ Î≥¥ÎÇ¥Ôø??.
       USBD_CDC_ReceivePacket(pdev);
       rx_full = false;
     }
@@ -372,8 +372,29 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-  USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
-  USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+
+  for (int i=0; i<*Len; i++)
+  {
+    cdcDataIn(Buf[i]);
+  }
+
+  uint32_t buf_len;
+
+  // ?àò?ã† Î≤ÑÌçº?óê?Ñú ÎπÑÏñ¥?ûà?äî ?ç∞?ù¥?Ñ∞ ?ñë
+  buf_len = (rx_len - cdcAvailable()) - 1;
+
+  if (buf_len >= USB_FS_MAX_PACKET_SIZE)
+  {
+    // ?ã§?ùå ?ç∞?ù¥?Ñ∞?èÑ Î≥¥ÎÇ¥Ï§?.
+    USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
+    USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+  }
+  else
+  {
+    // Î≤ÑÌçº ?ö©?üâ?ù¥ Î∂?Ï°±Ìïò?ãà, Í∏∞Îã§?†§?ã§..
+    rx_full = true;
+  }
+
   return (USBD_OK);
   /* USER CODE END 6 */
 }

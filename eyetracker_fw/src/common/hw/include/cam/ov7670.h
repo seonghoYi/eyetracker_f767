@@ -9,9 +9,12 @@ extern "C" {
 #include "hw_def.h"
 
 #ifdef _USE_HW_OV7670
+#define INPUT_CLOCK				8
 
-bool ov7670Init(void);
-bool ov7670DriverInit();
+#include "cam.h"
+
+bool ov7670Init(uint32_t resolution, uint8_t depth, uint8_t fps);
+bool ov7670DriverInit(cam_driver_t *driver);
 
 
 

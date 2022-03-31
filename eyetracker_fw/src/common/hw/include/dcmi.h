@@ -13,7 +13,8 @@ extern "C" {
 
 
 bool dcmiInit(void);
-bool dcmiStart(uint32_t p_data, uint32_t length);
+bool dcmiContinuousStart(uint32_t *p_data, uint32_t length);
+bool dcmiSnapshotStart(uint32_t *p_data, uint32_t length);
 bool dcmiStop(void);
 bool dcmiSuspend(void);
 bool dcmiResume(void);

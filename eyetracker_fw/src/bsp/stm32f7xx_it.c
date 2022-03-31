@@ -58,6 +58,7 @@
 /* External variables --------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 extern DMA_HandleTypeDef hdma_dcmi;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
 extern DCMI_HandleTypeDef hdcmi;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern UART_HandleTypeDef huart3;
@@ -229,6 +230,11 @@ void USART3_IRQHandler(void)
   /* USER CODE BEGIN USART3_IRQn 1 */
 
   /* USER CODE END USART3_IRQn 1 */
+}
+
+void DMA2_Stream0_IRQHandler(void)
+{
+	HAL_DMA_IRQHandler(&hdma_memtomem_dma2_stream0);
 }
 
 /**

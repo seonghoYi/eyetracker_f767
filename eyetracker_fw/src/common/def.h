@@ -36,4 +36,20 @@
 #define _DEF_HIGH								1
 
 
+
+#define _DEF_VGA								(640*480)
+#define _DEF_QVGA								(320*240)
+#define _DEF_QQVGA							(160*120)
+
+#define _DEF_IMAGE_DEPTH1				1
+#define _DEF_IMAGE_DEPTH2				2
+#define _DEF_IMAGE_DEPTH3				3
+
+
+#define constrain(in,low,high) ((in)<(low)?(low):((in)>(high)?(high):(in)))
+
+#ifndef map
+#define map(input, in_min, in_max, out_min, out_max) ((input - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
+#endif
+
 #endif /* SRC_COMMON_DEF_H_ */

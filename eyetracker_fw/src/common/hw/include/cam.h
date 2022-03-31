@@ -13,17 +13,22 @@ extern "C" {
 
 typedef struct
 {
-	bool 			(*init)(uint8_t resolution, uint8_t format, uint8_t fps);
-	bool			(*open)(void);
+	bool 			(*init)(uint32_t resolution, uint8_t depth, uint8_t fps);
+	bool			(*open)(uint8_t *frame_buffer);
 	bool		 	(*release)(void);
-	uint32_t 	(*getWidth)(void);
-	uint32_t 	(*getHeight)(void);
-	bool			(*setCallBack)(void (*func)(void));
-	bool			(*sendbuffer)(uint8_t *buf);
+	bool 			(*setCallBack)(void (*func)(void));
 } cam_driver_t;
 
 
+typedef struct
+{
+	bool is_latest_data;
+	uint8_t *p_frame;
+} frame_t;
 
+bool camInit(void);
+bool camOpen(uint32_t resolution, uint8_t color, uint8_t fps, frame_t *frame);
+bool camRelease(void);
 
 #endif
 

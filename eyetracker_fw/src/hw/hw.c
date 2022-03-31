@@ -12,7 +12,7 @@ void hwInit()
 	gpioInit();
 	i2cInit();
 
-	dcmiInit();
+	camInit();
 
 
 }

@@ -23,7 +23,6 @@
 #include "dma.h"
 #include "eth.h"
 #include "i2c.h"
-#include "tim.h"
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
@@ -97,7 +96,6 @@ int main(void)
   MX_USART3_UART_Init();
   MX_DCMI_Init();
   MX_I2C1_Init();
-  MX_TIM1_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 
@@ -174,6 +172,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSE, RCC_MCODIV_1);
 }
 
 /* USER CODE BEGIN 4 */
